@@ -1,89 +1,95 @@
-#include "raylib.h"
 #include <iostream>
+#include <string>
+#include <vector>
+
+#include "raylib.h"
 
 #include "Entity.h"
+#include "GameObject.h"
+#include "ObjectsManager.h"
+#include "Player.h"
 
-class testClass {
-public:
-    testClass() {}
-    ~testClass() {}
+void drawBackground() {
+    ClearBackground(YELLOW);
+    static Texture2D texture = LoadTexture("resources/background.png");
 
-    int getValue() { return 16; }
+    Rectangle recSource;
+    recSource.x = 0;
+    recSource.y = 0;
+    recSource.width = texture.width;
+    recSource.height = texture.height;
 
-private:
-};
+    Rectangle recDest;
+    recDest.x = 0;
+    recDest.y = 0;
+    recDest.width = GetScreenWidth();
+    recDest.height = GetScreenHeight();
 
-int addNumbers(int a, int b) { return a + b; }
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
+    DrawTexturePro(texture, recSource, recDest, {0, 0}, 0, WHITE);
+
+    return;
+}
+
 int main(void) {
-    // Initialization
-    //---------------------------------------------------------
     const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenHeight = 1000;
 
     SetConfigFlags(FLAG_MSAA_4X_HINT);
-    InitWindow(screenWidth, screenHeight,
-               "raylib [shapes] example - bouncing ball");
-
-    Vector2 ballPosition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
-    Vector2 ballSpeed = {5.0f, 4.0f};
-    int ballRadius = 20;
-
+    InitWindow(screenWidth, screenHeight, "Galaxia");
+    SetTargetFPS(60);
     bool pause = 0;
-    int framesCounter = 0;
 
-    SetTargetFPS(60); // Set our game to run at 60 frames-per-second
-    //----------------------------------------------------------
+    Player* player = new Player(80, 80);
+    player->texture = LoadTexture("resources/spaceship.png");
+    objectsManager.addGameObject(player);
 
-    // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
-    {
-        // Update
-        //-----------------------------------------------------
-        if (IsKeyPressed(KEY_SPACE))
-            pause = !pause;
+    while (!WindowShouldClose()) {
+        objectsManager.updateObjects();
 
-        if (!pause) {
-            ballPosition.x += ballSpeed.x;
-            ballPosition.y += ballSpeed.y;
-
-            // Check walls collision for bouncing
-            if ((ballPosition.x >= (GetScreenWidth() - ballRadius)) ||
-                (ballPosition.x <= ballRadius))
-                ballSpeed.x *= -1.0f;
-            if ((ballPosition.y >= (GetScreenHeight() - ballRadius)) ||
-                (ballPosition.y <= ballRadius))
-                ballSpeed.y *= -1.0f;
-        } else
-            framesCounter++;
-        //-----------------------------------------------------
-
-        // Draw
-        //-----------------------------------------------------
         BeginDrawing();
+        drawBackground();
 
-        ClearBackground(RAYWHITE);
+        for (const auto& gameObject : objectsManager.getGameObjects()) {
+            if (dynamic_cast<Entity*>(gameObject) != nullptr) {
+                Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
 
-        DrawCircleV(ballPosition, (float)ballRadius, MAROON);
-        // DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight()
-        // - 25, 20, LIGHTGRAY);
+                Rectangle recSource;
+                recSource.x = 0;
+                recSource.y = 0;
+                recSource.width = entityPtr->texture.width;
+                recSource.height = entityPtr->texture.height;
 
-        // On pause, we draw a blinking message
-        if (pause && ((framesCounter / 30) % 2))
+                Rectangle recDest;
+                recDest.x = entityPtr->position.x;
+                recDest.y = entityPtr->position.y;
+                recDest.width = entityPtr->width;
+                recDest.height = entityPtr->height;
+
+                DrawTexturePro(entityPtr->texture, recSource, recDest, {0, 0}, 0, WHITE);
+
+                // DrawTexture(entityPtr->texture, entityPtr->position.x, entityPtr->position.y, WHITE);
+            }
+        }
+
+        if (pause)
             DrawText("PAUSED", 350, 200, 30, GRAY);
-
         DrawFPS(10, 10);
-
         EndDrawing();
-        //-----------------------------------------------------
     }
 
-    // De-Initialization
-    //---------------------------------------------------------
-    CloseWindow(); // Close window and OpenGL context
-    //----------------------------------------------------------
+    for (const auto& gameObject : objectsManager.getGameObjects()) {
+        if (dynamic_cast<Entity*>(gameObject) != nullptr) {
+            Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
+
+            std::cout << "Unloading texture" << std::endl;
+            UnloadTexture(entityPtr->texture);
+        }
+
+        objectsManager.removeGameObject(gameObject);
+        delete gameObject;
+    }
+
+    CloseWindow();
 
     return 0;
 }
