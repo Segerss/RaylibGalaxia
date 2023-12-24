@@ -13,6 +13,7 @@ public:
     void removeGameObject(GameObject* objectToRemove);
 
     std::vector<GameObject*> getGameObjects();
+    bool contains(GameObject* wantedObject);
 
 private:
     std::vector<GameObject*> gameObjects;

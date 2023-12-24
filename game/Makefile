@@ -196,6 +196,7 @@ endif
 #  -Wno-unused-value    ignore unused return values of some functions (i.e. fread())
 #  -D_DEFAULT_SOURCE    use with -std=c99 on Linux and PLATFORM_WEB, required for timespec
 CFLAGS = -Wall -D_DEFAULT_SOURCE -Wno-missing-braces -Wunused-result
+
 # -std=c99 
 ifeq ($(BUILD_MODE),DEBUG)
     CFLAGS += -g -D_DEBUG
@@ -499,11 +500,11 @@ TARGET := GameExecutable
 
 # Rule for object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp # $(HDR_FILES)
-	$(CXX) $(CFLAGS) $(INC_DIRS) $(LDFLAGS) $(LDLIBS) $(INCLUDE_PATHS) -c $< -o obj/$(shell basename $@)
+	$(CXX) $(CFLAGS) -g $(INC_DIRS) $(LDFLAGS) $(LDLIBS) $(INCLUDE_PATHS) -c $< -o obj/$(shell basename $@)
 
 # Main target
 $(TARGET): $(OBJ_FILES)
-	$(CXX)  -o $@ $(COMPILED_OBJS) $(CXXFLAGS) $(LDFLAGS) $(LDLIBS) 
+	$(CXX)  -o $@ $(COMPILED_OBJS) $(CXXFLAGS) -g $(LDFLAGS) $(LDLIBS) 
 
 
 # Phony target to clean the project

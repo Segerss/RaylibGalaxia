@@ -6,6 +6,7 @@ class GameObject {
 private:
 public:
     Vector2 position = {0, 0};
+    bool toBeDestroyed = false;
 
 public:
     GameObject();

@@ -1,12 +1,14 @@
-#include "Entity.h"
+#include "Projectile.h"
 #include "ObjectsManager.h"
 #include "raylib.h"
 #include <iostream>
-Entity::Entity(int height, int width) : GameObject(), height(height), width(width) {}
 
-Entity::Entity() : GameObject() {}
+Projectile::Projectile() : Entity() {}
 
-void Entity::movement() {
+void Projectile::movement() {
+    if (toBeDestroyed)
+        return;
+
     if (position.x < -100 || position.y < -100 || position.y > GetScreenHeight() || position.x > GetScreenWidth()) {
         if (objectsManager.contains(dynamic_cast<GameObject*>(this))) {
             objectsManager.removeGameObject(dynamic_cast<GameObject*>(this));
@@ -33,4 +35,4 @@ void Entity::movement() {
     }
 }
 
-void Entity::update() { this->movement(); }
+void Projectile::update() { this->movement(); }

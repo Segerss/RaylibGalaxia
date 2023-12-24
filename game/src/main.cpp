@@ -9,6 +9,8 @@
 #include "ObjectsManager.h"
 #include "Player.h"
 
+#include "Bullet.h"
+
 void drawBackground() {
     ClearBackground(YELLOW);
     static Texture2D texture = LoadTexture("resources/background.png");
@@ -41,17 +43,31 @@ int main(void) {
 
     Player* player = new Player(80, 80);
     player->texture = LoadTexture("resources/spaceship.png");
+    player->speed = 1.3;
+    player->maxSpeed = 10;
+    player->drag = 1.12;
+    player->name = "Player";
     objectsManager.addGameObject(player);
 
     while (!WindowShouldClose()) {
         objectsManager.updateObjects();
 
+        std::cout << "Amount of Objects: " << objectsManager.getGameObjects().size() << std::endl;
+
         BeginDrawing();
         drawBackground();
 
         for (const auto& gameObject : objectsManager.getGameObjects()) {
+            if (gameObject->toBeDestroyed == true) {
+                objectsManager.removeGameObject(gameObject);
+                delete gameObject;
+                continue;
+            }
+
             if (dynamic_cast<Entity*>(gameObject) != nullptr) {
+                std::cout << "Cast succesfull" << std::endl;
                 Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
+                std::cout << "Entity name: " << entityPtr->name << std::endl;
 
                 Rectangle recSource;
                 recSource.x = 0;

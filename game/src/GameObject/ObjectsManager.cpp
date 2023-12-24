@@ -25,3 +25,12 @@ void ObjectsManager::removeGameObject(GameObject* objectToRemove) {
         }
     }
 }
+
+bool ObjectsManager::contains(GameObject* wantedObject) {
+    for (unsigned int i = 0; i < gameObjects.size(); i++) {
+        if (gameObjects[i] == wantedObject) {
+            return true;
+        }
+    }
+    return false;
+}
