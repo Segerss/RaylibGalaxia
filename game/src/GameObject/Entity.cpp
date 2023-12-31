@@ -34,3 +34,11 @@ void Entity::movement() {
 }
 
 void Entity::update() { this->movement(); }
+
+void Entity::colliderFromTexture() {
+    if (IsTextureReady(texture)) {
+        Rectangle rectangle;
+
+        colliders.push_back(rectangle);
+    }
+}

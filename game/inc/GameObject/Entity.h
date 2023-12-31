@@ -1,7 +1,9 @@
 #pragma once
+#include <string>
+#include <vector>
+
 #include "GameObject.h"
 #include "raylib.h"
-#include <string>
 
 class Entity : public GameObject {
 public:
@@ -10,6 +12,7 @@ public:
     Texture2D texture;
     int height = 0;
     int width = 0;
+    std::vector<Rectangle> colliders;
 
     Vector2 velocity = {0, 0};
     float speed = 0;
@@ -24,4 +27,5 @@ public:
     Entity(int height, int width);
 
     virtual void update() override;
+    virtual void colliderFromTexture();
 };

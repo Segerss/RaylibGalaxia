@@ -5,11 +5,21 @@ ObjectsManager objectsManager;
 ObjectsManager::ObjectsManager() {}
 ObjectsManager::~ObjectsManager() {}
 
-std::vector<GameObject*> ObjectsManager::getGameObjects() { return gameObjects; }
+std::vector<GameObject*> ObjectsManager::getGameObjects() {
+    // std::vector<GameObject*> returnVector;
+    //
+    // returnVector.resize(gameObjects.size());
+    //
+    // for (int i = 0; i < gameObjects.size(); i++) {
+    //     returnVector[i] = gameObjects[i];
+    // }
+
+    return gameObjects;
+}
 
 void ObjectsManager::updateObjects() {
-    for (auto gameObject : gameObjects) {
-        gameObject->update();
+    for (unsigned int i = 0; i < gameObjects.size(); i++) {
+        gameObjects[i]->update();
     }
 }
 
@@ -21,7 +31,10 @@ void ObjectsManager::addGameObject(GameObject* objectToInsert) {
 void ObjectsManager::removeGameObject(GameObject* objectToRemove) {
     for (unsigned int i = 0; i < gameObjects.size(); i++) {
         if (gameObjects[i] == objectToRemove) {
-            gameObjects.erase(gameObjects.begin() + i);
+            for (unsigned int j = i; j < gameObjects.size() - 1; j++) {
+                gameObjects[j] = gameObjects[j + 1];
+            }
+            gameObjects.resize(gameObjects.size() - 1);
         }
     }
 }

@@ -53,16 +53,19 @@ void Player::shooting() {
         return;
     bool shootBullet = false;
 
-    if (IsKeyPressed(KEY_SPACE)) {
+    if (IsKeyDown(KEY_SPACE)) {
         shootBullet = true;
     }
 
     if (shootBullet == true) {
         Bullet* bullet = new Bullet(30, 30);
+
         bullet->texture = LoadTexture("resources/standardMissile.png");
+        bullet->colliderFromTexture();
         bullet->position = {this->position.x, (this->position.y + (float)(this->texture.height / 2.0))};
-        bullet->velocity.y = -1;
+        bullet->velocity.y = -5;
         bullet->name = "Bullet";
+
         objectsManager.addGameObject(bullet);
     }
 }

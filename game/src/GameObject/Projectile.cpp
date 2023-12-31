@@ -11,7 +11,6 @@ void Projectile::movement() {
 
     if (position.x < -100 || position.y < -100 || position.y > GetScreenHeight() || position.x > GetScreenWidth()) {
         if (objectsManager.contains(dynamic_cast<GameObject*>(this))) {
-            objectsManager.removeGameObject(dynamic_cast<GameObject*>(this));
             toBeDestroyed = true;
             return;
         }
