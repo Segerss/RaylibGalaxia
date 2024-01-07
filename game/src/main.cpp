@@ -53,6 +53,7 @@ int main(void) {
     Player* player = new Player(80, 80);
     player->texture = LoadTexture("resources/spaceship.png");
     player->colliderFromTexture();
+    player->isCollidable = true;
     player->speed = 1.3;
     player->maxSpeed = 10;
     player->drag = 1.12;
@@ -62,6 +63,7 @@ int main(void) {
         Player* player = new Player(80, 80);
         player->texture = LoadTexture("resources/spaceship.png");
         player->colliderFromTexture();
+        player->isCollidable = true;
         player->position = {200, 200};
         player->speed = 1.3;
         player->maxSpeed = 10;
@@ -71,6 +73,8 @@ int main(void) {
     }
     while (!WindowShouldClose()) {
         objectsManager.updateObjects();
+
+        // objectsManager.checkCollisions();
 
         BeginDrawing();
         drawBackground();

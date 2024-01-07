@@ -1,6 +1,9 @@
 #pragma once
-#include "GameObject.h"
+#include <iostream>
 #include <vector>
+
+#include "Entity.h"
+#include "GameObject.h"
 
 class ObjectsManager {
 public:
@@ -11,6 +14,8 @@ public:
 
     void addGameObject(GameObject* objectToInsert);
     void removeGameObject(GameObject* objectToRemove);
+
+    void checkCollisions();
 
     std::vector<GameObject*> getGameObjects();
     bool contains(GameObject* wantedObject);

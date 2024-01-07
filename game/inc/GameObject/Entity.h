@@ -13,6 +13,7 @@ public:
     int height = 0;
     int width = 0;
     std::vector<Rectangle> colliders;
+    bool isCollidable = false;
 
     Vector2 velocity = {0, 0};
     float speed = 0;

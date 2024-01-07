@@ -5,17 +5,7 @@ ObjectsManager objectsManager;
 ObjectsManager::ObjectsManager() {}
 ObjectsManager::~ObjectsManager() {}
 
-std::vector<GameObject*> ObjectsManager::getGameObjects() {
-    // std::vector<GameObject*> returnVector;
-    //
-    // returnVector.resize(gameObjects.size());
-    //
-    // for (int i = 0; i < gameObjects.size(); i++) {
-    //     returnVector[i] = gameObjects[i];
-    // }
-
-    return gameObjects;
-}
+std::vector<GameObject*> ObjectsManager::getGameObjects() { return gameObjects; }
 
 void ObjectsManager::updateObjects() {
     for (unsigned int i = 0; i < gameObjects.size(); i++) {
@@ -46,4 +36,16 @@ bool ObjectsManager::contains(GameObject* wantedObject) {
         }
     }
     return false;
+}
+
+void ObjectsManager::checkCollisions() {
+    // std::cout << "from collisions" << std::endl;
+    // for (unsigned int i = 0; i < gameObjects.size(); i++) {
+    //     GameObject* gameObject = gameObjects[i];
+    //     if (dynamic_cast<Entity*>(gameObject) != nullptr) {
+    //         Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
+    //         std::cout << entityPtr->name << std::endl;
+    //     }
+    // }
+    return;
 }
