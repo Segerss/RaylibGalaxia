@@ -1,13 +1,13 @@
-#include "Player.h"
+#include "Enemy.h"
 #include "Bullet.h"
 #include "ObjectsManager.h"
 #include "Projectile.h"
 #include "raylib.h"
 #include <iostream>
 
-Player::Player() : Entity() {}
+Enemy::Enemy() : Entity() {}
 
-void Player::movement() {
+void Enemy::movement() {
     if (toBeDestroyed)
         return;
     if (position.x < -100 || position.y < -100 || position.y > GetScreenHeight() || position.x > GetScreenWidth()) {
@@ -16,18 +16,6 @@ void Player::movement() {
             toBeDestroyed = true;
             return;
         }
-    }
-    if (IsKeyDown(KEY_W)) {
-        velocity.y -= speed;
-    }
-    if (IsKeyDown(KEY_A)) {
-        velocity.x -= speed;
-    }
-    if (IsKeyDown(KEY_S)) {
-        velocity.y += speed;
-    }
-    if (IsKeyDown(KEY_D)) {
-        velocity.x += speed;
     }
 
     position.x += velocity.x;
@@ -48,32 +36,13 @@ void Player::movement() {
     }
 }
 
-void Player::shooting() {
+void Enemy::shooting() {
     if (toBeDestroyed)
         return;
     bool shootBullet = false;
-
-    if (IsKeyPressed(KEY_SPACE)) {
-        shootBullet = true;
-    }
-
-    if (shootBullet == true) {
-        Bullet* bullet = new Bullet(30, 30);
-
-        bullet->texture = LoadTexture("resources/standardMissile.png");
-        bullet->colliderFromTexture();
-        bullet->isCollidable = true;
-        bullet->position = {this->position.x + (float)(this->width / 2.0) - (float)(bullet->width / 2.0),
-                            (this->position.y)};
-        bullet->velocity.y = -5;
-        bullet->damage = this->damage;
-        bullet->name = "Bullet";
-
-        objectsManager.addGameObject(bullet);
-    }
 }
 
-void Player::update() {
+void Enemy::update() {
     this->movement();
 
     this->shooting();

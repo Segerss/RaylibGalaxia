@@ -4,6 +4,9 @@
 
 #include "raylib.h"
 
+#include "Millis.h"
+
+#include "Enemy.h"
 #include "Entity.h"
 #include "GameObject.h"
 #include "ObjectsManager.h"
@@ -59,22 +62,31 @@ int main(void) {
     player->drag = 1.12;
     player->name = "Player";
     objectsManager.addGameObject(player);
-    {
-        Player* player = new Player(80, 80);
-        player->texture = LoadTexture("resources/spaceship.png");
-        player->colliderFromTexture();
-        player->isCollidable = true;
-        player->position = {200, 200};
-        player->speed = 1.3;
-        player->maxSpeed = 10;
-        player->drag = 1.12;
-        player->name = "Player";
-        objectsManager.addGameObject(player);
-    }
+
+    Enemy* enemy = new Enemy(80, 80);
+    enemy->texture = LoadTexture("resources/enemyBlue.png");
+    enemy->colliderFromTexture();
+    enemy->position = {200, 200};
+    enemy->isCollidable = true;
+    enemy->name = "test enemy";
+    objectsManager.addGameObject(enemy);
+    // {
+    //     Player* player = new Player(80, 80);
+    //     player->texture = LoadTexture("resources/spaceship.png");
+    //     player->colliderFromTexture();
+    //     player->isCollidable = true;
+    //     player->position = {200, 200};
+    //     player->speed = 1.3;
+    //     player->maxSpeed = 10;
+    //     player->drag = 1.12;
+    //     player->name = "Player";
+    //     objectsManager.addGameObject(player);
+    // }
     while (!WindowShouldClose()) {
+        std::cout << "Millis(): " << millis() << std::endl;
         objectsManager.updateObjects();
 
-        // objectsManager.checkCollisions();
+        objectsManager.checkCollisions();
 
         BeginDrawing();
         drawBackground();
@@ -84,6 +96,18 @@ int main(void) {
         for (unsigned int i = 0; i < gameObjects.size(); i++) {
             // std::cout << "Amount of Objects: " << objectsManager.getGameObjects().size() << ", " << i << std::endl;
             GameObject* gameObject = gameObjects[i];
+            if (gameObject->toBeDestroyed == true) {
+                if (dynamic_cast<Entity*>(gameObject) != nullptr) {
+                    Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
+                    entityPtr->die();
+                    UnloadTexture(entityPtr->texture);
+                }
+
+                objectsManager.removeGameObject(gameObject);
+                delete gameObject;
+                continue;
+            }
+
             if (dynamic_cast<Entity*>(gameObject) != nullptr) {
                 Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
 
@@ -101,19 +125,9 @@ int main(void) {
 
                 DrawTexturePro(entityPtr->texture, recSource, recDest, {0, 0}, 0, WHITE);
                 for (unsigned int i = 0; i < entityPtr->colliders.size(); i++) {
-                    DrawRectangleLines(entityPtr->position.x, entityPtr->position.y, entityPtr->width,
-                                       entityPtr->height, GREEN);
+                    Rectangle collider = entityPtr->getColliderInPosition(i);
+                    DrawRectangleLines(collider.x, collider.y, collider.width, collider.height, GREEN);
                 }
-            }
-
-            if (gameObject->toBeDestroyed == true) {
-                if (dynamic_cast<Entity*>(gameObject) != nullptr) {
-                    Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
-                    UnloadTexture(entityPtr->texture);
-                }
-
-                objectsManager.removeGameObject(gameObject);
-                delete gameObject;
             }
         }
 

@@ -1,15 +1,13 @@
 #pragma once
 #include "Entity.h"
-class Player : public Entity {
+class Enemy : public Entity {
 public:
-    int damage = 50;
-
 private:
     void movement();
     void shooting();
 
 public:
-    Player();
+    Enemy();
 
     void update() override;
 

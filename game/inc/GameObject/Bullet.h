@@ -6,5 +6,7 @@ public:
 
 private:
 public:
+    virtual void die() override;
+
     using Projectile::Projectile;
 };

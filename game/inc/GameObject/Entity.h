@@ -20,6 +20,9 @@ public:
     float maxSpeed = 0;
     float drag = 0;
 
+    int health = 100;
+    int damage = 0;
+
 private:
     void movement();
 
@@ -29,4 +32,8 @@ public:
 
     virtual void update() override;
     virtual void colliderFromTexture();
+    virtual void die();
+    virtual void collided(GameObject* collidedObject);
+
+    Rectangle getColliderInPosition(unsigned int index);
 };
