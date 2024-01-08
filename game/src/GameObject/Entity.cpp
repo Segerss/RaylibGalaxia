@@ -9,10 +9,16 @@ Entity::Entity(int height, int width) : GameObject(), height(height), width(widt
 
 Entity::Entity() : GameObject() {}
 
+Entity::~Entity() {
+    std::cout << "Unload Texture" << std::endl;
+
+    UnloadTexture(texture);
+}
+
 void Entity::movement() {
     if (position.x < -100 || position.y < -100 || position.y > GetScreenHeight() || position.x > GetScreenWidth()) {
         if (objectsManager.contains(dynamic_cast<GameObject*>(this))) {
-            objectsManager.removeGameObject(dynamic_cast<GameObject*>(this));
+            // objectsManager.removeGameObject(dynamic_cast<GameObject*>(this));
             toBeDestroyed = true;
             return;
         }

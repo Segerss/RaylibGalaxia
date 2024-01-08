@@ -30,6 +30,8 @@ public:
     Entity();
     Entity(int height, int width);
 
+    ~Entity();
+
     virtual void update() override;
     virtual void colliderFromTexture();
     virtual void die();

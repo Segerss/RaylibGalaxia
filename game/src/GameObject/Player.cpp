@@ -61,6 +61,7 @@ void Player::shooting() {
         Bullet* bullet = new Bullet(30, 30);
 
         bullet->texture = LoadTexture("resources/standardMissile.png");
+
         bullet->colliderFromTexture();
         bullet->isCollidable = true;
         bullet->position = {this->position.x + (float)(this->width / 2.0) - (float)(bullet->width / 2.0),

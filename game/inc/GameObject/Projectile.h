@@ -8,7 +8,7 @@ private:
 public:
     Projectile();
 
-    void update() override;
+    // virtual void update();
 
     using Entity::Entity;
 };
