@@ -1,15 +1,14 @@
-#include "ParticleEffect.h"
-#include "raylib.h"
+#include "BulletHit.h"
 
-ParticleEffect::ParticleEffect() {}
+BulletHit::BulletHit() {}
 
-ParticleEffect::~ParticleEffect() {
-    for (unsigned int i = 0; i < frames.size(); i++) {
-        UnloadTexture(frames[i]);
-    }
+BulletHit::~BulletHit() {
+    // for (unsigned int i = 0; i < frames.size(); i++) {
+    //     UnloadTexture(frames[i]);
+    // }
 }
 
-void ParticleEffect::update() {
+void BulletHit::update() {
     if (frames.size() == 0) {
         std::cout << "No frames detected in frames list" << std::endl;
         return;

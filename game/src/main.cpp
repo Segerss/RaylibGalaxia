@@ -6,6 +6,7 @@
 
 #include "Millis.h"
 
+#include "BulletHit.h"
 #include "Enemy.h"
 #include "Entity.h"
 #include "GameObject.h"
@@ -61,6 +62,9 @@ int main(void) {
     player->speed = 1.3;
     player->maxSpeed = 10;
     player->drag = 1.12;
+
+    player->damage = 1;
+
     player->name = "Player";
     objectsManager.addGameObject(player);
 
@@ -72,13 +76,13 @@ int main(void) {
     enemy->name = "test enemy";
     objectsManager.addGameObject(enemy);
 
-    ParticleEffect* particle = new ParticleEffect();
+    BulletHit* particle = new BulletHit();
     particle->position = {400, 400};
     particle->width = 20;
     particle->height = 20;
     particle->name = "test particle";
-
     objectsManager.addGameObject(particle);
+
     // {
     //     Player* player = new Player(80, 80);
     //     player->texture = LoadTexture("resources/spaceship.png");
@@ -101,7 +105,7 @@ int main(void) {
         std::vector<GameObject*> gameObjects = objectsManager.getGameObjects();
 
         for (unsigned int i = 0; i < gameObjects.size(); i++) {
-            std::cout << "Amount of Objects: " << objectsManager.getGameObjects().size() << ", " << i << std::endl;
+            // std::cout << "Amount of Objects: " << objectsManager.getGameObjects().size() << ", " << i << std::endl;
             GameObject* gameObject = gameObjects[i];
             if (gameObject->toBeDestroyed == true) {
                 if (dynamic_cast<Entity*>(gameObject) != nullptr) {
@@ -117,6 +121,9 @@ int main(void) {
 
             if (dynamic_cast<Entity*>(gameObject) != nullptr) {
                 Entity* entityPtr = dynamic_cast<Entity*>(gameObject);
+
+                std::cout << "Amount of Objects: " << objectsManager.getGameObjects().size() << ", " << i << " "
+                          << entityPtr->name << std::endl;
 
                 Rectangle recSource;
                 recSource.x = 0;

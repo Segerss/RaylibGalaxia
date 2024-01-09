@@ -6,28 +6,20 @@
 
 class ParticleEffect : public Entity {
 public:
-private:
-    std::vector<Texture2D> frames = {LoadTexture("resources/BulletExplosion/Explosion1.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion2.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion3.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion4.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion5.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion6.png"),
-                                     LoadTexture("resources/BulletExplosion/Explosion7.png")};
-    unsigned int currentFrame = 0;
-
+    std::vector<Texture2D> frames;
     bool continuesEffect = false;
 
+    unsigned int currentFrame = 0;
     unsigned long long lastFrame = millis();
-
     unsigned long long millisecondsBetweenFrames = 10;
 
+private:
 public:
     ParticleEffect();
 
     ~ParticleEffect();
 
-    virtual void update() override;
+    void update() override;
 
     using Entity::Entity;
 };

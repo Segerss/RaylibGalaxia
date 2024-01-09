@@ -2,7 +2,7 @@
 #include "Entity.h"
 class Player : public Entity {
 public:
-    int damage = 50;
+    int damage = 0;
 
 private:
     void movement();
